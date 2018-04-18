@@ -14,72 +14,174 @@
 * @author Saul Boyd
 */
 
-register_activation_hook(__FILE__, array("blockstack", "activated"));
+register_activation_hook( __FILE__, array( "blockstack", "activated" ) );
 
-add_action("plugins_loaded", array("blockstack", "init"));
+add_action( "plugins_loaded", array( "blockstack", "init" ) );
 
-class blockstack{
-	public static function init(){
+class blockstack {
+	public static function init() {
 		// hooks for directing the blockstack-login url
-		add_filter("generate_rewrite_rules", array(get_called_class(), "rewriteRules"));
-		add_filter("query_vars", array(get_called_class(), "queryVars"));
-		add_action("template_redirect", array(get_called_class(), "templateRedirect"));
+		add_filter( "generate_rewrite_rules", array( get_called_class(), "rewriteRules" ) );
+		add_filter( "query_vars", array( get_called_class(), "queryVars" ) );
+		add_action( "template_redirect", array( get_called_class(), "templateRedirect" ) );
 
 		// hooks for login
-		add_action("init",array(get_called_class(), "preventPassowrdChange"));
-		add_action("login_footer", array(get_called_class(), "loginForm"));
+		add_action( "init", array( get_called_class(), "preventPassowrdChange" ) );
+		add_action( "login_footer", array( get_called_class(), "loginForm" ) );
+
+		// admin options
+		if ( is_admin() ) {
+			add_action( "admin_menu", array( get_called_class(), "adminMenu" ) );
+			add_action( "admin_init", array( get_called_class(), "registerSettings" ) );
+		}
+
+		// blockstack options
+		add_filter( 'plugin_action_links_' . plugin_basename(__FILE__), array( get_called_class(), 'plugin_settings_link' ) );
+		add_action( 'user_new_form', array( get_called_class(), 'blockstackProfileSettings' ) );
+	    add_action( 'show_user_profile', array( get_called_class(), 'blockstackProfileSettings' ) );
+	    add_action( 'edit_user_profile', array( get_called_class(), 'blockstackProfileSettings' ) );
+	}
+
+	function plugin_settings_link( $links ) {
+		$url = get_admin_url() . 'options-general.php?page=blockstack%2Fblockstack.php';
+		$settings_link = '<a href="'.$url.'">' . __( 'Settings', 'textdomain' ) . '</a>';
+		array_unshift( $links, $settings_link );
+
+		return $links;
+	}
+
+	public static function blockstackProfileSettings($user){
+		// Only display if current user is view his/her profile
+
+		if ( wp_get_current_user()->ID == $user->ID ) {
+			// We only need to display this if the admin has set the following options:
+
+			if ( get_option( "blockstack_customUsernames" ) === "on" || get_option( "blockstack_accountLinking" ) === "on"  ) {
+				?>
+				<h3>Blockstack</h3>
+				<table class="form-table">
+					<tbody>
+						<tr>
+							<th>Blockstack Login</th>
+							<td>
+								<div class="button button-primary" id="clearBSLogin">
+									Clear Blockstack Login
+								</div>
+								<div id="clearedMessage" style="padding: 10px;" class="hidden">
+									Login cleared.
+								</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				<style>
+					.hidden {
+						display: none;
+					}
+				</style>
+				<script src="<?php echo "http://" . $_SERVER['SERVER_NAME'] . "/" . get_option( 'blockstack_jsLibraryLocation' ); ?>"></script>
+				<script>
+					document.addEventListener( "DOMContentLoaded", function( event ) {
+						var clearedMessage = document.getElementById( "clearedMessage" );
+
+						document.getElementById( "clearBSLogin" ).addEventListener( "click", function () {
+							clearedMessage.className = "hidden";
+							Blockstack_sso.setLoginDetails( "", "" ).then( function (res) {
+								clearedMessage.className = "";
+							});
+						});
+					});
+				</script>
+				<?php
+			}
+		}
 	}
 
 
-	public static function loginForm(){
+	public static function loginForm() {
 		?>
-		<script src="<?php echo plugin_dir_url( __FILE__ ) . '/js/blockstack sso.js'; ?>"></script>
+		<script src="<?php echo get_option( 'blockstack_jsLibraryLocation' ); ?>"></script>
 		<script>
-			document.addEventListener("DOMContentLoaded", function(event) {
-				var form = document.getElementById("loginform");
-				var btn = document.createElement("INPUT");
-				btn.type = "button";
-				btn.value = "Sign in with blockstack.";
-				btn.className = "button button-primary button-large";
-				btn.style = "position: relative; top: 20px; width: 100%";
+			document.addEventListener( "DOMContentLoaded", function( event ) {
+				if ( "<?php echo ( get_option( 'blockstack_accountCreation' ) ) ?>" === "on" || "<?php echo ( get_option( 'blockstack_accountLinking' ) ) ?>" === "on" ) {
+					var form = document.getElementById( "loginform" );
+					var btn = document.createElement( "INPUT" );
+					btn.type = "button";
+					btn.value = "Sign in with blockstack.";
+					btn.className = "button button-primary button-large";
+					btn.style = "position: relative; top: 20px; width: 100%";
 
-				btn.addEventListener("click", function(event) {
-					event.preventDefault();
-					Blockstack_sso.login().then((url) => {
-						window.location.replace(url);
-					}).catch((err) => {
-						console.error("Error: " + err);
+					btn.addEventListener( "click", function( event ) {
+						event.preventDefault();
+						Blockstack_sso.login( false ).then( ( url ) => {
+							window.location.replace( url );
+						}).catch( ( err ) => {
+							console.error( "Error: " + err );
+						});
 					});
-				});
 
-				form.appendChild(btn);
+					form.appendChild( btn );
+				}
 			});
 		</script>
 		<?php
 	}
 
-	public static function preventPassowrdChange(){
+	public function registerSettings() {
+		add_option( "blockstack_jsLibraryLocation", "wp-content/plugins/blockstack/js/blockstack_sso.js" );
+		add_option( "blockstack_phpLibraryLocation", "wp-content/plugins/blockstack/libs/blockstt/plugins/blockstack/libs/blockstack_sso.phpack_sso.php" );
+		add_option( "blockstack_accountCreation", true );
+		add_option( "blockstack_customUsernames", true );
+		add_option( "blockstack_uniqueUsernames", false );
+		add_option( "blockstack_onenameUsernames", false );
+		add_option( "blockstack_accountLinking", true );
+
+		register_setting( "blockstack_settings", "blockstack_jsLibraryLocation" );
+		register_setting( "blockstack_settings", "blockstack_phpLibraryLocation" );
+		register_setting( "blockstack_settings", "blockstack_accountCreation" );
+		register_setting( "blockstack_settings", "blockstack_customUsernames" );
+		register_setting( "blockstack_settings", "blockstack_uniqueUsernames" );
+		register_setting( "blockstack_settings", "blockstack_onenameUsernames" );
+		register_setting( "blockstack_settings", "blockstack_accountLinking" );
+	}
+
+	private function registerSetting( $settingName ) {
+		add_option( $settingName, true );
+		register_setting( "blockstack_settings", $settingName );
+	}
+
+	public function adminMenu(){
+		add_options_page( "Blockstack options", "Blockstack", 'manage_options', __FILE__, array( get_called_class(), "optionsForm" ) );
+	}
+
+	public function optionsForm() {
+		// This function displays the plugin options
+
+		include( plugin_dir_path( __FILE__ ) . "pages/options.php" );
+	}
+
+	public static function preventPassowrdChange() {
 		$user = wp_get_current_user();
 
-		if($user->exists() && get_user_meta($user->ID, "blockstack_user", true)){
-			add_filter('show_password_fields', function(){
+		if ( $user->exists() && get_user_meta( $user->ID, "blockstack_user", true ) ) {
+			add_filter( 'show_password_fields', function() {
 				return false;
 			});
-			add_filter("allow_password_reset", function(){
+			add_filter( "allow_password_reset", function() {
 				return false;
 			});
 		}
 	}
 
-	public function rewriteRules($wp_rewrite){
-		$feed_rules = array("manifest.json/?$" => "index.php?manifest=1");
+	public function rewriteRules( $wp_rewrite ) {
+		$feed_rules = array( "manifest.json/?$" => "index.php?manifest=1" );
 		$wp_rewrite->rules = $feed_rules + $wp_rewrite->rules;
 
 		return $wp_rewrite->rules;
 	}
 
 
-	public static function queryVars($query_vars){
+	public static function queryVars( $query_vars ) {
 		$query_vars[] = "manifest";
 		$query_vars[] = "authResponse";
 
@@ -87,30 +189,30 @@ class blockstack{
 	}
 
 
-	public static function templateRedirect(){
-		$manifest = intval( get_query_var("manifest"));
-		if($manifest){
+	public static function templateRedirect() {
+		$manifest = intval( get_query_var( "manifest" ) );
+		if ( $manifest ) {
 			include plugin_dir_path( __FILE__ ) . "pages/manifest.php";
 			die;
 		}
 
-		$authResponse = get_query_var("authResponse");
-		if($authResponse){
+		$authResponse = get_query_var( "authResponse" );
+		if ( $authResponse ) {
 			include plugin_dir_path( __FILE__ ) . "pages/authPage.php";
 			die;
 		}
 	}
 
-	public function activated(){
+	public function activated() {
 		flush_rewrite_rules();
 	}
 }
 
 //__________________________________________________________________________________________________________________________
 
-if( ! function_exists("get_avatar") ) {
-	function get_avatar($id_or_email, $size = 96, $default = '', $alt = '', $args = null){
-		$bsUrl = get_user_meta($id_or_email, "avatar_url", true);
+if( !function_exists( "get_avatar" ) ) {
+	function get_avatar( $id_or_email, $size = 96, $default = '', $alt = '', $args = null ) {
+		$bsUrl = get_user_meta( $id_or_email, "avatar_url", true );
 
 
 		$defaults = array(
@@ -203,4 +305,3 @@ if( ! function_exists("get_avatar") ) {
 		return apply_filters( 'get_avatar', $avatar, $id_or_email, $args['size'], $args['default'], $args['alt'], $args );
 	}
 }
-?>
