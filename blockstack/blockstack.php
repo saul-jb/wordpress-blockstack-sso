@@ -65,10 +65,10 @@ class blockstack {
 							<th>Blockstack Login</th>
 							<td>
 								<div class="button button-primary" id="clearBSLogin">
-									Clear Blockstack Login
+									Disable Blockstack Login
 								</div>
 								<div id="clearedMessage" style="padding: 10px;" class="hidden">
-									Login cleared.
+									Login disabled.
 								</div>
 							</td>
 						</tr>
@@ -79,7 +79,7 @@ class blockstack {
 						display: none;
 					}
 				</style>
-				<script src="<?php echo "http://" . $_SERVER['SERVER_NAME'] . "/" . get_option( 'blockstack_jsLibraryLocation' ); ?>"></script>
+				<script src="<?php echo "http" . ( ( is_ssl() ) ? 's' : '' ) . "://" . $_SERVER['SERVER_NAME'] . "/" . get_option( 'blockstack_jsLibraryLocation' ); ?>"></script>
 				<script>
 					document.addEventListener( "DOMContentLoaded", function( event ) {
 						var clearedMessage = document.getElementById( "clearedMessage" );
@@ -129,7 +129,7 @@ class blockstack {
 
 	public function registerSettings() {
 		add_option( "blockstack_jsLibraryLocation", "wp-content/plugins/blockstack/js/blockstack_sso.js" );
-		add_option( "blockstack_phpLibraryLocation", "wp-content/plugins/blockstack/libs/blockstt/plugins/blockstack/libs/blockstack_sso.phpack_sso.php" );
+		add_option( "blockstack_phpLibraryLocation", "wp-content/plugins/blockstack/libs/blockstack_sso.php" );
 		add_option( "blockstack_accountCreation", true );
 		add_option( "blockstack_customUsernames", true );
 		add_option( "blockstack_uniqueUsernames", false );
