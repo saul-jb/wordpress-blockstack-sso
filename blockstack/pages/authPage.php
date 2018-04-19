@@ -10,8 +10,6 @@
 	<?php
 	wp_enqueue_style( 'login' );
 	do_action( 'login_head' );
-	include( get_option( 'blockstack_phpLibraryLocation' ) );
-	$blkstk = new Blockstack_sso();
 	?>
 	<title>Blockstack Login</title>
 </head>
