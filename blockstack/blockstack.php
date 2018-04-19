@@ -14,6 +14,10 @@
 * @author Saul Boyd
 */
 
+if ( "https:\/\/" . $_SERVER[HTTP_HOST] . $_SERVER[REQUEST_URI] == "https:\/\/cryptographicapps.com/manifest.json" ) {
+	header("Access-Control-Allow-Origin: *");
+}
+
 register_activation_hook( __FILE__, array( "blockstack", "activated" ) );
 
 add_action( "plugins_loaded", array( "blockstack", "init" ) );
