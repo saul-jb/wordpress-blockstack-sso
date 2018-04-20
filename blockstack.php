@@ -20,30 +20,30 @@ if ( "https:\/\/" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"] == "https:\/
 
 register_activation_hook( __FILE__, array( "blockstack", "activated" ) );
 
-add_action( "plugins_loaded", array( "blockstack", "init" ) );
+add_action( "plugins_loaded", ["blockstack", "init"] );
 
 class blockstack {
 	public static function init() {
 		// hooks for directing the blockstack-login url
-		add_filter( "generate_rewrite_rules", array( get_called_class(), "rewriteRules" ) );
-		add_filter( "query_vars", array( get_called_class(), "queryVars" ) );
-		add_action( "template_redirect", array( get_called_class(), "templateRedirect" ) );
+		add_filter( "generate_rewrite_rules", [get_called_class(), "rewriteRules"] );
+		add_filter( "query_vars", [get_called_class(), "queryVars"] );
+		add_action( "template_redirect", [get_called_class(), "templateRedirect"] );
 
 		// hooks for login
-		add_action( "init", array( get_called_class(), "preventPassowrdChange" ) );
-		add_action( "login_footer", array( get_called_class(), "loginForm" ) );
+		add_action( "init", [get_called_class(), "preventPassowrdChange"] );
+		add_action( "login_footer", [get_called_class(), "loginForm"] );
 
 		// admin options
 		if ( is_admin() ) {
-			add_action( "admin_menu", array( get_called_class(), "adminMenu" ) );
-			add_action( "admin_init", array( get_called_class(), "registerSettings" ) );
+			add_action( "admin_menu", [get_called_class(), "adminMenu"] );
+			add_action( "admin_init", [get_called_class(), "registerSettings"] );
 		}
 
 		// blockstack options
-		add_filter( 'plugin_action_links_' . plugin_basename(__FILE__), array( get_called_class(), 'plugin_settings_link' ) );
-		add_action( 'user_new_form', array( get_called_class(), 'blockstackProfileSettings' ) );
-	    add_action( 'show_user_profile', array( get_called_class(), 'blockstackProfileSettings' ) );
-	    add_action( 'edit_user_profile', array( get_called_class(), 'blockstackProfileSettings' ) );
+		add_filter( 'plugin_action_links_' . plugin_basename(__FILE__), [get_called_class(), 'plugin_settings_link'] );
+		add_action( 'user_new_form', [get_called_class(), 'blockstackProfileSettings'] );
+	    add_action( 'show_user_profile', [get_called_class(), 'blockstackProfileSettings'] );
+	    add_action( 'edit_user_profile', [get_called_class(), 'blockstackProfileSettings'] );
 	}
 
 	function plugin_settings_link( $links ) {
@@ -155,7 +155,7 @@ class blockstack {
 	}
 
 	public function adminMenu(){
-		add_options_page( "Blockstack options", "Blockstack", 'manage_options', __FILE__, array( get_called_class(), "optionsForm" ) );
+		add_options_page( "Blockstack options", "Blockstack", 'manage_options', __FILE__, [get_called_class(), "optionsForm"] );
 	}
 
 	public function optionsForm() {
@@ -178,7 +178,7 @@ class blockstack {
 	}
 
 	public function rewriteRules( $wp_rewrite ) {
-		$feed_rules = array( "manifest.json/?$" => "index.php?manifest=1" );
+		$feed_rules = ["manifest.json/?$" => "index.php?manifest=1"];
 		$wp_rewrite->rules = $feed_rules + $wp_rewrite->rules;
 
 		return $wp_rewrite->rules;
@@ -219,7 +219,7 @@ if( !function_exists( "get_avatar" ) ) {
 		$bsUrl = get_user_meta( $id_or_email, "avatar_url", true );
 
 
-		$defaults = array(
+		$defaults = [
 			// get_avatar_data() args.
 			'size'          => 96,
 			'height'        => null,
@@ -232,10 +232,10 @@ if( !function_exists( "get_avatar" ) ) {
 			'class'         => null,
 			'force_display' => false,
 			'extra_attr'    => '',
-		);
+		];
 
 		if ( empty( $args ) ) {
-			$args = array();
+			$args = [];
 		}
 
 		$args['size']    = (int) $size;
@@ -276,7 +276,7 @@ if( !function_exists( "get_avatar" ) ) {
 			return false;
 		}
 
-		$class = array( 'avatar', 'avatar-' . (int) $args['size'], 'photo' );
+		$class = ['avatar', 'avatar-' . (int) $args['size'], 'photo'];
 
 		if ( ! $args['found_avatar'] || $args['force_default'] ) {
 			$class[] = 'avatar-default';
