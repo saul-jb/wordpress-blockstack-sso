@@ -83,12 +83,12 @@
 </div>
 
 <script>
-	document.addEventListener( "DOMContentLoaded", function ( event ) {
+	document.addEventListener( "DOMContentLoaded", function( event ) {
 		var accountCreation = document.getElementById( "blockstack_accountCreation" );
 		var customUsernames = document.getElementById( "blockstack_customUsernames" );
 		var accountLinking = document.getElementById( "blockstack_accountLinking" );
 
-		function setState( el, state ){
+		function setState( el, state ) {
 			var parent = document.getElementById( el + "P" );
 			el = document.getElementById( el );
 
@@ -117,7 +117,7 @@
 </script>
 
 <style>
-	.disabled, .disabled label{
+	.disabled, .disabled label {
 		opacity: 0.6;
 		cursor: not-allowed;
 	}

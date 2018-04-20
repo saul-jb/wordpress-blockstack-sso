@@ -130,7 +130,7 @@ if ( $response["error"] ) {
 }
 
 
-function blockstack_updateUserMeta ( $id, $name, $description ) {
+function blockstack_updateUserMeta( $id, $name, $description ) {
 	$nameParts = explode( " ", $name );
 	$lastName = array_values( array_slice( $nameParts, -1 ) )[0];
 
@@ -145,7 +145,7 @@ function blockstack_updateUserMeta ( $id, $name, $description ) {
 	update_user_meta( $id, "description", $description );
 }
 
-function blockstack_validateCustomInfo ( $loginObj ) {
+function blockstack_validateCustomInfo( $loginObj ) {
 	return (
 		isset( $loginObj )
 		&& $loginObj !== false
