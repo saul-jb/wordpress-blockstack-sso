@@ -14,7 +14,7 @@
 * @author Saul Boyd
 */
 
-if ( "https:\/\/" . $_SERVER[HTTP_HOST] . $_SERVER[REQUEST_URI] == "https:\/\/cryptographicapps.com/manifest.json" ) {
+if ( "https:\/\/" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"] == "https:\/\/" . $_SERVER['SERVER_NAME'] . "/manifest.json" ) {
 	header("Access-Control-Allow-Origin: *");
 }
 
