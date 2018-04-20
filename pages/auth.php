@@ -1,8 +1,8 @@
 <?php
 /*
-	Author: Saul Boyd (avikar.io)
-	License: GPL (http://www.gnu.org/copyleft/gpl.html)
-*/
+ * Author: Saul Boyd (avikar.io)
+ * License: GPL (http://www.gnu.org/copyleft/gpl.html)
+ */
 if ( !function_exists( "plugin_dir_path" ) ) {
 	$parse_uri = explode( "wp-content", $_SERVER["SCRIPT_FILENAME"] );
 	require_once( $parse_uri[0] . "wp-load.php" );
@@ -147,13 +147,13 @@ function blockstack_updateUserMeta ( $id, $name, $description ) {
 
 function blockstack_validateCustomInfo ( $loginObj ) {
 	return (
-		isset( $loginObj ) &&
-		$loginObj !== false &&
-		isset( $loginObj["username"] ) &&
-		isset( $loginObj["password"] ) &&
-		$loginObj["username"] != null &&
-		$loginObj["password"] != null &&
-		$loginObj["username"] != "" &&
-		$loginObj["password"] != ""
+		isset( $loginObj )
+		&& $loginObj !== false
+		&& isset( $loginObj["username"] )
+		&& isset( $loginObj["password"] )
+		&& $loginObj["username"] != null
+		&& $loginObj["password"] != null
+		&& $loginObj["username"] != ""
+		&& $loginObj["password"] != ""
 	);
 }
