@@ -1,9 +1,9 @@
 <?php
 /*
-	Template Name: Authentication page
-	Author: Saul Boyd (avikar.io)
-	License: GPL (http://www.gnu.org/copyleft/gpl.html)
-*/
+ * Template Name: Authentication page
+ * Author: Saul Boyd (avikar.io)
+ * License: GPL (http://www.gnu.org/copyleft/gpl.html)
+ */
 ?>
 <html>
 <head>
@@ -55,7 +55,7 @@
 			}
 		</style>
 		<!-- include the blockstack file -->
-		<script src="<?php echo "http" . ( ( is_ssl() ) ? 's' : '' ) . "://" . $_SERVER['SERVER_NAME'] . "/" . get_option( 'blockstack_jsLibraryLocation' ); ?>"></script>
+		<script src="<?php echo site_url() . "/" . get_option( 'blockstack_jsLibraryLocation' ); ?>"></script>
 		<script>
 			var messageEl = document.getElementById("message");
 			var detailsEl = document.getElementById("details");

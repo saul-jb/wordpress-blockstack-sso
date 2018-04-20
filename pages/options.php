@@ -1,8 +1,8 @@
 <?php
 /*
-	Author: Saul Boyd (avikar.io)
-	License: GPL (http://www.gnu.org/copyleft/gpl.html)
-*/
+ * Author: Saul Boyd (avikar.io)
+ * License: GPL (http://www.gnu.org/copyleft/gpl.html)
+ */
 ?>
 <div class="wrap">
 	<?php screen_icon(); ?>
@@ -20,7 +20,7 @@
 						<label for="blockstack_jsLibraryLocation">Blockstack SSO JS Location:</label>
 					</th>
 					<td>
-						<?php echo $_SERVER['SERVER_NAME']; ?>/<input type="text" id="blockstack_jsLibraryLocation" name="blockstack_jsLibraryLocation" value="<?php echo get_option( 'blockstack_jsLibraryLocation' ); ?>" />
+						<?php echo site_url(); ?>/<input type="text" id="blockstack_jsLibraryLocation" name="blockstack_jsLibraryLocation" value="<?php echo get_option( 'blockstack_jsLibraryLocation' ); ?>" />
 					</td>
 				</tr>
 				<tr>
@@ -28,7 +28,7 @@
 						<label for="blockstack_phpLibraryLocation">Blockstack SSO PHP Location:</label>
 					</th>
 					<td>
-						<?php echo $_SERVER['SERVER_NAME']; ?>/<input type="text" id="blockstack_phpLibraryLocation" name="blockstack_phpLibraryLocation" value="<?php echo get_option( 'blockstack_phpLibraryLocation' ); ?>" />
+						<?php echo site_url(); ?>/<input type="text" id="blockstack_phpLibraryLocation" name="blockstack_phpLibraryLocation" value="<?php echo get_option( 'blockstack_phpLibraryLocation' ); ?>" />
 					</td>
 				</tr>
 			</table>
