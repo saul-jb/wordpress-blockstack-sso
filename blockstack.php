@@ -19,7 +19,7 @@ if ( preg_match( '|/manifest.json$|', $_SERVER['REQUEST_URI'] ) ) {
 	header("Access-Control-Allow-Origin: *");
 	?>{
 		"name": "Wordpress Blockstack Log-in",
-		"start_url": "https://<?php echo $_SERVER['SERVER_NAME']; ?>",
+		"start_url": "<?php echo site_url(); ?>",
 		"description": "The blockstack plugin to log into Wordpress with blockstack",
 		"icons": [
 			{
@@ -62,13 +62,13 @@ class blockstack {
 
 	function plugin_settings_link( $links ) {
 		$url = get_admin_url() . 'options-general.php?page=blockstack%2Fblockstack.php';
-		$settings_link = '<a href="'.$url.'">' . __( 'Settings', 'textdomain' ) . '</a>';
+		$settings_link = '<a href="' . $url . '">' . __( 'Settings', 'textdomain' ) . '</a>';
 		array_unshift( $links, $settings_link );
 
 		return $links;
 	}
 
-	public static function blockstackProfileSettings($user){
+	public static function blockstackProfileSettings( $user ) {
 		// Only display if current user is view his/her profile
 
 		if ( wp_get_current_user()->ID == $user->ID ) {
@@ -97,7 +97,7 @@ class blockstack {
 						display: none;
 					}
 				</style>
-				<script src="<?php echo "http" . ( ( is_ssl() ) ? 's' : '' ) . "://" . $_SERVER['SERVER_NAME'] . "/" . get_option( 'blockstack_jsLibraryLocation' ); ?>"></script>
+				<script src="<?php echo site_url() . "/" . get_option( 'blockstack_jsLibraryLocation' ); ?>"></script>
 				<script>
 					document.addEventListener( "DOMContentLoaded", function( event ) {
 						var clearedMessage = document.getElementById( "clearedMessage" );
@@ -172,9 +172,8 @@ class blockstack {
 		add_options_page( "Blockstack options", "Blockstack", 'manage_options', __FILE__, [get_called_class(), "optionsForm"] );
 	}
 
+	// This function displays the plugin options
 	public function optionsForm() {
-		// This function displays the plugin options
-
 		include( plugin_dir_path( __FILE__ ) . "pages/options.php" );
 	}
 
@@ -232,9 +231,8 @@ if( !function_exists( "get_avatar" ) ) {
 	function get_avatar( $id_or_email, $size = 96, $default = '', $alt = '', $args = null ) {
 		$bsUrl = get_user_meta( $id_or_email, "avatar_url", true );
 
-
+		// get_avatar_data() args.
 		$defaults = [
-			// get_avatar_data() args.
 			'size'          => 96,
 			'height'        => null,
 			'width'         => null,
@@ -272,7 +270,7 @@ if( !function_exists( "get_avatar" ) ) {
 		$avatar = apply_filters( 'pre_get_avatar', null, $id_or_email, $args );
 
 		if ( ! is_null( $avatar ) ) {
-			/** This filter is documented in wp-includes/pluggable.php */
+			// This filter is documented in wp-includes/pluggable.php
 			return apply_filters( 'get_avatar', $avatar, $id_or_email, $args['size'], $args['default'], $args['alt'], $args );
 		}
 
@@ -280,7 +278,7 @@ if( !function_exists( "get_avatar" ) ) {
 			return false;
 		}
 
-		$url2x = get_avatar_url( $id_or_email, array_merge( $args, array( 'size' => $args['size'] * 2 ) ) );
+		$url2x = get_avatar_url( $id_or_email, array_merge( $args, ['size' => $args['size'] * 2] ) );
 
 		$args = get_avatar_data( $id_or_email, $args );
 
@@ -304,7 +302,7 @@ if( !function_exists( "get_avatar" ) ) {
 			}
 		}
 
-		if($bsUrl){
+		if ( $bsUrl ) {
 			$url = $bsUrl;
 			$url2x = $bsUrl;
 		}
