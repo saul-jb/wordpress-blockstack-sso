@@ -1,18 +1,18 @@
 <?php
 /**
-* Plugin Name: Blockstack - Authentication Via Blockstack
-* Plugin URI:
-* Description: Blockstack modifies the login page to allow signing in by blockstack.
-* Version: 1.0
-* Author: Saul Boyd
-* Author URI: http://avikar.io
-* Text Domain: blockstack
-* License: GPL (http://www.gnu.org/copyleft/gpl.html)
-*
-* @package blockstack
-* @category Core
-* @author Saul Boyd
-*/
+ * Plugin Name: Blockstack - Authentication Via Blockstack
+ * Plugin URI:
+ * Description: Blockstack modifies the login page to allow signing in by blockstack.
+ * Version: 1.0
+ * Author: Saul Boyd
+ * Author URI: http://avikar.io
+ * Text Domain: blockstack
+ * License: GPL (http://www.gnu.org/copyleft/gpl.html)
+ *
+ * @package blockstack
+ * @category Core
+ * @author Saul Boyd
+ */
 
 if ( "https:\/\/" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"] == "https:\/\/" . $_SERVER['SERVER_NAME'] . "/manifest.json" ) {
 	header("Access-Control-Allow-Origin: *");
