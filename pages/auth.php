@@ -14,7 +14,7 @@ $blkstk = new Blockstack_sso();
 $response = json_decode( $blkstk->auth(), true );
 
 if ( $response["error"] ) {
-	//error handle
+	// error handle
 	die('{"error": true, "data": ' . $response["data"] . '}');
 } else {
 	// login!
@@ -86,11 +86,11 @@ if ( $response["error"] ) {
 		if ( get_option( "blockstack_accountLinking" ) === "on" ||  get_option( "blockstack_customUsernames" ) === "on" ) {
 			// User exists - attempt saved blockstack login details and request details if they don't work
 
-			$creds = array(
+			$creds = [
 				'user_login' => $userName,
 				'user_password' => $response["data"]["login"]["password"],
 				'remember' => true
-			);
+			];
 
 			$user = wp_signon( $creds, is_ssl() );
 
@@ -114,11 +114,11 @@ if ( $response["error"] ) {
 
 	blockstack_updateUserMeta( $userId, $response["data"]["profile"]["name"],  $response["data"]["profile"]["description"] );
 
-	$creds = array(
+	$creds = [
 		'user_login' => $userName,
 		'user_password' => $response["data"]["password"],
 		'remember' => true
-	);
+	];
 
 	$user = wp_signon( $creds, is_ssl() );
 
