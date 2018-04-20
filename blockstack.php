@@ -20,7 +20,7 @@ if ( preg_match( '|/manifest.json$|', $_SERVER['REQUEST_URI'] ) ) {
 	?>{
 		"name": "Wordpress Blockstack Log-in",
 		"start_url": "https://<?php echo $_SERVER['SERVER_NAME']; ?>",
-		"description": "The blockstack plugin to log into wordpress with blockstack",
+		"description": "The blockstack plugin to log into Wordpress with blockstack",
 		"icons": [
 			{
 				"src": "https://blockstack.org/images/logos/blockstack-bug.svg",
