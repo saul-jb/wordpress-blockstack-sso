@@ -14,7 +14,8 @@
  * @author Saul Boyd
  */
 
-if ( $_SERVER['REQUEST_URI'] == '/manifest.json' ) {
+// If this is a request for the blockstack manifest set a CORS header, return the JSON manifest and exit
+if ( preg_match( '|/manifest.json$|', $_SERVER['REQUEST_URI'] ) ) {
 	header("Access-Control-Allow-Origin: *");
 	?>{
 		"name": "Wordpress Blockstack Log-in",
