@@ -14,8 +14,21 @@
  * @author Saul Boyd
  */
 
-if ( "https:\/\/" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"] == "https:\/\/" . $_SERVER['SERVER_NAME'] . "/manifest.json" ) {
+if ( $_SERVER['REQUEST_URI'] == '/manifest.json' ) {
 	header("Access-Control-Allow-Origin: *");
+	?>{
+		"name": "Wordpress Blockstack Log-in",
+		"start_url": "https://<?php echo $_SERVER['SERVER_NAME']; ?>",
+		"description": "The blockstack plugin to log into wordpress with blockstack",
+		"icons": [
+			{
+				"src": "https://blockstack.org/images/logos/blockstack-bug.svg",
+				"sizes": "192x192",
+				"type": "image/svg"
+			}
+		]
+	}<?php
+	exit;
 }
 
 register_activation_hook( __FILE__, array( "blockstack", "activated" ) );
