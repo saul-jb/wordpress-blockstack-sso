@@ -14,13 +14,16 @@
  * @author Saul Boyd
  */
 
+// Include the "Blockstack" class
+include("./class.blockstack.php");
+
 // If this is a request for the blockstack manifest set a CORS header, return the JSON manifest and exit
 if ( preg_match( '|/manifest.json$|', $_SERVER['REQUEST_URI'] ) ) {
 	header("Access-Control-Allow-Origin: *");
 	?>{
-		"name": "Wordpress Blockstack Log-in",
+		"name": "<?php _e( 'Wordpress Blockstack Log-in', 'blockstack' ); ?>",
 		"start_url": "<?php echo site_url(); ?>",
-		"description": "The blockstack plugin to log into Wordpress with blockstack",
+		"description": "<?php _e( 'The blockstack plugin to log into Wordpress with blockstack', 'blockstack' ); ?>",
 		"icons": [
 			{
 				"src": "https://blockstack.org/images/logos/blockstack-bug.svg",

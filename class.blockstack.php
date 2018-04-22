@@ -31,7 +31,7 @@ class Blockstack {
 	// Add a settings link on the plugin page.
 	function plugin_settings_link( $links ) {
 		$url = get_admin_url() . 'options-general.php?page=blockstack%2Fblockstack.php';
-		$settings_link = '<a href="' . $url . '">' . __( 'Settings', 'textdomain' ) . '</a>';
+		$settings_link = '<a href="' . $url . '">' . __( 'Settings', 'blockstack' ) . '</a>';
 		array_unshift( $links, $settings_link );
 
 		return $links;
@@ -50,13 +50,13 @@ class Blockstack {
 				<table class="form-table">
 					<tbody>
 						<tr>
-							<th>Blockstack Login</th>
+							<th><?php e_( "Blockstack Login", "blockstack" ); ?></th>
 							<td>
 								<div class="button button-primary" id="clearBSLogin">
-									Disable Blockstack Login
+									<?php e_( "Disable Blockstack Login", "blockstack" ); ?>
 								</div>
 								<div id="clearedMessage" style="padding: 10px;" class="hidden">
-									Login disabled.
+									<?php e_( "Login disabled.", "blockstack" ); ?>
 								</div>
 							</td>
 						</tr>
@@ -88,14 +88,14 @@ class Blockstack {
 	// Modify the login form to include the "Sign in with blockstack." button.
 	public static function loginForm() {
 		?>
-		<script src="<?php echo get_option( 'blockstack_jsLibraryLocation' ); ?>"></script>
-		<script>
-			document.addEventListener( "DOMContentLoaded", function( event ) {
-				if ( "<?php echo ( get_option( 'blockstack_accountCreation' ) ) ?>" === "on" || "<?php echo ( get_option( 'blockstack_accountLinking' ) ) ?>" === "on" ) {
+		<?php if ( get_option( "blockstack_accountCreation" ) === "on" || get_option( "blockstack_accountLinking" ) === "on" ): ?>
+			<script src="<?php echo get_option( 'blockstack_jsLibraryLocation' ); ?>"></script>
+			<script>
+				document.addEventListener( "DOMContentLoaded", function( event ) {
 					var form = document.getElementById( "loginform" );
 					var btn = document.createElement( "INPUT" );
 					btn.type = "button";
-					btn.value = "Sign in with blockstack.";
+					btn.value = <?php e_( "Sign in with blockstack.", "blockstack" ); ?>;
 					btn.className = "button button-primary button-large";
 					btn.style = "position: relative; top: 20px; width: 100%";
 
@@ -109,9 +109,9 @@ class Blockstack {
 					});
 
 					form.appendChild( btn );
-				}
-			});
-		</script>
+				});
+			</script>
+		<?php endif; ?>
 		<?php
 	}
 
@@ -136,7 +136,7 @@ class Blockstack {
 
 	// Add an option to the settings menu for the blockstack options page
 	public function adminMenu(){
-		add_options_page( "Blockstack options", "Blockstack", 'manage_options', __FILE__, [get_called_class(), "optionsForm"] );
+		add_options_page( "Blockstack options", __("Blockstack", "blockstack"), 'manage_options', __FILE__, [get_called_class(), "optionsForm"] );
 	}
 
 	// This function displays the plugin options
