@@ -21,9 +21,9 @@ include("./class.blockstack.php");
 if ( preg_match( '|/manifest.json$|', $_SERVER['REQUEST_URI'] ) ) {
 	header("Access-Control-Allow-Origin: *");
 	?>{
-		"name": "<?php _e( 'Wordpress Blockstack Log-in', 'blockstack' ); ?>",
+		"name": "<?php get_bloginfo( 'name' ); ?>",
 		"start_url": "<?php echo site_url(); ?>",
-		"description": "<?php _e( 'The blockstack plugin to log into Wordpress with blockstack', 'blockstack' ); ?>",
+		"description": "<?php get_bloginfo( 'description' ); ?>",
 		"icons": [
 			{
 				"src": "https://blockstack.org/images/logos/blockstack-bug.svg",
