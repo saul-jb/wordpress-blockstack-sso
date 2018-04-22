@@ -1,6 +1,5 @@
 <?php
 /**
- * Template Name: Authentication page
  * Author: Saul Boyd (avikar.io)
  * License: GPL (http://www.gnu.org/copyleft/gpl.html)
  */
@@ -63,12 +62,12 @@
 			var custom = ( "<?php echo get_option( 'blockstack_customUsernames' ) ?>" === "on" );
 			var creation = ( "<?php echo get_option( 'blockstack_accountCreation' ) ?>" === "on" );
 
-			Blockstack_sso.isSignedIn().then( ( userData ) => {
+			BlockstackCommon.isSignedIn().then( ( userData ) => {
 				// successful sign in
 				var url = "<?php echo plugin_dir_url( __FILE__ ) . 'auth.php' ?>";
 
 				if ( linking || custom ) {
-					Blockstack_sso.getLoginDetails().then( function ( res ) {
+					BlockstackCommon.getLoginDetails().then( function ( res ) {
 						if ( !res.username || res.username == "" || !res.password || res.password == "" ) {
 							// There is a problem in the username or password
 
@@ -101,7 +100,7 @@
 					detailsEl.className = "";
 					messageEl.className = "";
 
-					Blockstack_sso.setLoginDetails( username, password ).then( function (res) {
+					BlockstackCommon.setLoginDetails( username, password ).then( function (res) {
 						attemptSignin( userData, url );
 					});
 				});
@@ -113,7 +112,7 @@
 			});
 
 			function attemptSignin( userData, url ){
-				Blockstack_sso.phpSignIn( userData, url ).then( ( res ) => {
+				BlockstackCommon.phpSignIn( userData, url ).then( ( res ) => {
 					console.log(res);
 					messageEl.className = "";
 					if ( res.request ) {

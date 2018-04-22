@@ -10,7 +10,7 @@ if ( !function_exists( "plugin_dir_path" ) ) {
 
 include( ABSPATH . get_option( 'blockstack_phpLibraryLocation' ) );
 
-$blkstk = new Blockstack_sso();
+$blkstk = new BlockstackCommon();
 $response = json_decode( $blkstk->auth(), true );
 
 if ( $response["error"] ) {
