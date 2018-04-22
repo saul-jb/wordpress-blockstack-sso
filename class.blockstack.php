@@ -140,7 +140,7 @@ class Blockstack {
 	}
 
 	// This function displays the plugin options
-	public function optionsForm() {
+	public static function optionsForm() {
 		include( plugin_dir_path( __FILE__ ) . "pages/options.php" );
 	}
 

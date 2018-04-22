@@ -17,13 +17,17 @@
 // Include the "Blockstack" class
 require_once( plugin_dir_path( __FILE__ ) . "./class.blockstack.php" );
 
+// Initialise our plugin
+add_action( "plugins_loaded", ["Blockstack", "init"] );
+
 // If this is a request for the blockstack manifest set a CORS header, return the JSON manifest and exit
-if ( preg_match( '|/manifest.json$|', $_SERVER['REQUEST_URI'] ) ) {
+if ( preg_match( '|/manifest.json/$|', $_SERVER['REQUEST_URI'] ) ) {
 	header("Access-Control-Allow-Origin: *");
+	header("Content-Type: application/json");
 	?>{
-		"name": "<?php get_bloginfo( 'name' ); ?>",
+		"name": "<?php echo get_bloginfo( 'name' ); ?>",
 		"start_url": "<?php echo site_url(); ?>",
-		"description": "<?php get_bloginfo( 'description' ); ?>",
+		"description": "<?php echo get_bloginfo( 'description' ); ?>",
 		"icons": [
 			{
 				"src": "https://blockstack.org/images/logos/blockstack-bug.svg",
@@ -34,9 +38,6 @@ if ( preg_match( '|/manifest.json$|', $_SERVER['REQUEST_URI'] ) ) {
 	}<?php
 	exit;
 }
-
-// Initialise our plugin
-add_action( "plugins_loaded", ["Blockstack", "init"] );
 
 // Modify the default "get_avitar" function to use our blockstack image if it exists
 if( !function_exists( "get_avatar" ) ) {
