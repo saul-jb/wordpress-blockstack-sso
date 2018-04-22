@@ -15,7 +15,7 @@
  */
 
 // Include the "Blockstack" class
-include("./class.blockstack.php");
+require_once( plugin_dir_path( __FILE__ ) . "./class.blockstack.php" );
 
 // If this is a request for the blockstack manifest set a CORS header, return the JSON manifest and exit
 if ( preg_match( '|/manifest.json$|', $_SERVER['REQUEST_URI'] ) ) {

@@ -5,7 +5,6 @@
  */
 ?>
 <div class="wrap">
-	<?php screen_icon(); ?>
 	<h1><?php _e( "Blockstack Settings:", "blockstack" ); ?></h1>
 	<form method="post" action="options.php">
 		<div>
