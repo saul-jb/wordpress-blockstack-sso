@@ -72,8 +72,8 @@
 							// There is a problem in the username or password
 
 							detailsEl.className = "";
-							messageEl.innerHTML = ( linking && !creation) ? <?php _e( "Please login using your wordpress deatils to link your account.", "blockstack" ); ?> :
-								<?php _e( "Please enter existing wordpress account details to link it to blockstack or enter new ones to create an account.", "blockstack" ); ?>;
+							messageEl.innerHTML = ( linking && !creation) ? "<?php _e( 'Please login using your wordpress deatils to link your account.', 'blockstack' ); ?>" :
+								"<?php _e( 'Please enter existing wordpress account details to link it to blockstack or enter new ones to create an account.', 'blockstack' ); ?>";
 
 							document.getElementById("username").value = userData.username ? userData.username : ( userData.profile.name ? userData.profile.name : res.username );
 						}
@@ -96,7 +96,7 @@
 					var password = document.getElementById("password").value;
 
 					detailsEl.className = "hidden";
-					messageEl.innerHTML = <?php _e( "Logging in!", "blockstack" ); ?>;
+					messageEl.innerHTML = "<?php _e( 'Logging in!', 'blockstack' ); ?>";
 					detailsEl.className = "";
 					messageEl.className = "";
 
@@ -122,7 +122,7 @@
 					}
 					else {
 						// successful sign-in
-						messageEl.innerHTML =  <?php _e( "Success!", "blockstack" ); ?>;
+						messageEl.innerHTML =  "<?php _e( 'Success!', 'blockstack' ); ?>";
 
 						window.location.replace( "http:\/\/" + window.location.hostname + "/wp-admin/" );
 					}
