@@ -95,7 +95,7 @@ class Blockstack {
 					var form = document.getElementById( "loginform" );
 					var btn = document.createElement( "INPUT" );
 					btn.type = "button";
-					btn.value = <?php _e( "Sign in with blockstack.", "blockstack" ); ?>;
+					btn.value = "<?php _e( 'Sign in with blockstack.', 'blockstack' ); ?>";
 					btn.className = "button button-primary button-large";
 					btn.style = "position: relative; top: 20px; width: 100%";
 
