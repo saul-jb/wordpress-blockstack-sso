@@ -43,7 +43,7 @@ if ( $response["error"] ) {
 		} else {
 			// We are using custom usernames and the username are invalid? No thanks...
 
-			die( '{"error": false, "data": "Username and/or password is invalid", "request": true, "message": "Please enter a valid username or password."}' );
+			die( '{"error": false, "data": "' . __( "Username and/or password is invalid", "blockstack" ) . '", "request": true, "message": "' . __( "Please enter a valid username or password.", "blockstack" ) . '"}' );
 		}
 	}
 
@@ -55,7 +55,7 @@ if ( $response["error"] ) {
 		if ( get_option( "blockstack_customUsernames" ) === "on" ) {
 			// User doesn't exist - create one:
 
-			$responseMessage = '{"error": false, "data": "New user using custom username"}';
+			$responseMessage = '{"error": false, "data": "' . __( "New user using custom username", "blockstack" ) . '"}';
 
 			$response["data"]["password"] = $response["data"]["login"]["password"];
 			$userId = wp_create_user( $userName,  $response["data"]["password"] );
@@ -65,7 +65,7 @@ if ( $response["error"] ) {
 		elseif ( get_option( "blockstack_accountCreation" ) === "on" ) {
 			// Create the account
 
-			$responseMessage = '{"error": false, "data": "Creating user"}';
+			$responseMessage = '{"error": false, "data": "' . __( "Creating user", "blockstack" ) . '"}';
 
 			$userId = wp_create_user( $userName, $response["data"]["password"] );
 			add_user_meta( $userId, "avatar_url", $response["data"]["avatarUrl"] );
@@ -74,11 +74,11 @@ if ( $response["error"] ) {
 		elseif ( get_option( "blockstack_accountLinking" ) === "on" ) {
 			// Account linking only
 
-			die( '{"error": false, "data": "Account creation is disabled", "request": true, "message": "Please enter a existing account."}' );
+			die( '{"error": false, "data": "' . __( "Account creation is disabled", "blockstack" ) . '", "request": true, "message": "' . __( "Please enter a existing account", "blockstack" ) . '"}' );
 		} else {
 			// Account creation is not allowed
 
-			die( '{"error": true, "data": "Account creation is disabled", "message": "Account creation is disabled."}' );
+			die( '{"error": true, "data": "' . __( "Account creation is disabled", "blockstack" ) . '", "message": "' . __( "Account creation is disabled", "blockstack" ) . '"}' );
 		}
 	} else {
 		// User exists - check whether we are linking account, or loggin in like normal
@@ -98,16 +98,16 @@ if ( $response["error"] ) {
 				// Login details work
 
 				blockstack_updateUserMeta( $userId, $response["data"]["profile"]["name"],  $response["data"]["profile"]["description"] );
-				die( '{"error": false, "data": "Custom username login successful"}' );
+				die( '{"error": false, "data": "' . __( "Custom username login successful", "blockstack" ) . '"}' );
 			} else {
 				// Login details failed - request new ones
 
-				die( '{"error": false, "data": "Login details failed, requesting new ones", "request": true, "message": "Password is incorrect."}' );
+				die( '{"error": false, "data": "' . __( "Login details failed, requesting new ones", "blockstack" ) . '", "request": true, "message": "' . __( "Password is incorrect.", "blockstack" ) . '"}' );
 			}
 		} else {
 			// Attempt login like normal
 
-			$responseMessage = '{"error": false, "data": "Logging in"}';
+			$responseMessage = '{"error": false, "data": "' . __( "Logging in", "blockstack" ) . '"}';
 			update_user_meta( $userId, "avatar_url", $response["data"]["avatarUrl"] );
 		}
 	}
@@ -125,7 +125,7 @@ if ( $response["error"] ) {
 	if ( !is_wp_error( $user ) ) {
 		die( $responseMessage );
 	} else {
-		die( '{"error": true, "data": "' . $user . '", "message": "Something went wrong with the signin, please try again."}' );
+		die( '{"error": true, "data": "' . $user . '", "message": "' . __( "Something went wrong with the signin, please try again.", "blockstack" ) . '"}' );
 	}
 }
 
