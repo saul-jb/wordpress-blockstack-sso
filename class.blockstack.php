@@ -50,13 +50,13 @@ class Blockstack {
 				<table class="form-table">
 					<tbody>
 						<tr>
-							<th><?php e_( "Blockstack Login", "blockstack" ); ?></th>
+							<th><?php _e( "Blockstack Login", "blockstack" ); ?></th>
 							<td>
 								<div class="button button-primary" id="clearBSLogin">
-									<?php e_( "Disable Blockstack Login", "blockstack" ); ?>
+									<?php _e( "Disable Blockstack Login", "blockstack" ); ?>
 								</div>
 								<div id="clearedMessage" style="padding: 10px;" class="hidden">
-									<?php e_( "Login disabled.", "blockstack" ); ?>
+									<?php _e( "Login disabled.", "blockstack" ); ?>
 								</div>
 							</td>
 						</tr>
@@ -95,7 +95,7 @@ class Blockstack {
 					var form = document.getElementById( "loginform" );
 					var btn = document.createElement( "INPUT" );
 					btn.type = "button";
-					btn.value = <?php e_( "Sign in with blockstack.", "blockstack" ); ?>;
+					btn.value = <?php _e( "Sign in with blockstack.", "blockstack" ); ?>;
 					btn.className = "button button-primary button-large";
 					btn.style = "position: relative; top: 20px; width: 100%";
 
@@ -136,7 +136,7 @@ class Blockstack {
 
 	// Add an option to the settings menu for the blockstack options page
 	public function adminMenu(){
-		add_options_page( "Blockstack options", __("Blockstack", "blockstack"), 'manage_options', __FILE__, [get_called_class(), "optionsForm"] );
+		add_options_page( "Blockstack options", __("Blockstack", "blockstack"), 'manage_options', __FILE__ );
 	}
 
 	// This function displays the plugin options
