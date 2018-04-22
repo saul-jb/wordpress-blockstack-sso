@@ -116,7 +116,7 @@ class Blockstack {
 	}
 
 	// Register the plugin settings
-	public function registerSettings() {
+	public static function registerSettings() {
 		add_option( "blockstack_jsLibraryLocation", "wp-content/plugins/blockstack/js/blockstack_sso.js" );
 		add_option( "blockstack_phpLibraryLocation", "wp-content/plugins/blockstack/libs/blockstack_sso.php" );
 		add_option( "blockstack_accountCreation", true );
@@ -135,8 +135,8 @@ class Blockstack {
 	}
 
 	// Add an option to the settings menu for the blockstack options page
-	public function adminMenu(){
-		add_options_page( "Blockstack options", __("Blockstack", "blockstack"), 'manage_options', __FILE__ );
+	public static function adminMenu(){
+		add_options_page( "Blockstack options", __("Blockstack", "blockstack"), "manage_options", __FILE__, [get_called_class(), "optionsForm"] );
 	}
 
 	// This function displays the plugin options
