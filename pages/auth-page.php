@@ -58,7 +58,6 @@
 		<script>
 			var messageEl = document.getElementById("message");
 			var detailsEl = document.getElementById("details");
-			var linking = ( "<?php echo get_option( 'blockstack_accountLinking' ); ?>" === "on" );
 			var custom = ( "<?php echo get_option( 'blockstack_customUsernames' ); ?>" === "on" );
 			var creation = ( "<?php echo get_option( 'blockstack_accountCreation' ); ?>" === "on" );
 
@@ -66,18 +65,17 @@
 				// successful sign in
 				var url = "<?php echo plugin_dir_url( __FILE__ ) . 'auth.php'; ?>";
 
-				if ( linking || custom ) {
+				if ( !creation || custom ) {
 					BlockstackCommon.getLoginDetails().then( function ( res ) {
 						if ( !res.username || res.username == "" || !res.password || res.password == "" ) {
 							// There is a problem in the username or password
 
 							detailsEl.className = "";
-							messageEl.innerHTML = ( linking && !creation) ? "<?php _e( 'Please login using your wordpress deatils to link your account.', 'blockstack' ); ?>" :
+							messageEl.innerHTML = !creation ? "<?php _e( 'Please login using your wordpress deatils to link your account.', 'blockstack' ); ?>" :
 								"<?php _e( 'Please enter existing wordpress account details to link it to blockstack or enter new ones to create an account.', 'blockstack' ); ?>";
 
 							document.getElementById("username").value = userData.username ? userData.username : ( userData.profile.name ? userData.profile.name : res.username );
-						}
-						else {
+						} else {
 							attemptSignin( userData, url );
 						}
 					}).catch( function ( err ) {
@@ -86,8 +84,7 @@
 
 						attemptSignin( userData, url );
 					});
-				}
-				else {
+				} else {
 					attemptSignin( userData, url );
 				}
 
@@ -119,8 +116,7 @@
 						// sign in is requesting user details
 						detailsEl.className = "";
 						messageEl.innerHTML = res.message;
-					}
-					else {
+					} else {
 						// successful sign-in
 						messageEl.innerHTML =  "<?php _e( 'Success!', 'blockstack' ); ?>";
 

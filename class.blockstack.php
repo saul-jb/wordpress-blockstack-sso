@@ -44,7 +44,7 @@ class Blockstack {
 		if ( wp_get_current_user()->ID == $user->ID ) {
 			// We only need to display this if the admin has set the following options:
 
-			if ( get_option( "blockstack_customUsernames" ) === "on" || get_option( "blockstack_accountLinking" ) === "on"  ) {
+			if ( get_option( "blockstack_customUsernames" ) === "on" || get_option( "blockstack_accountCreation" ) !== "on"  ) {
 				?>
 				<h3>Blockstack</h3>
 				<table class="form-table">
@@ -88,7 +88,7 @@ class Blockstack {
 	// Modify the login form to include the "Sign in with blockstack." button.
 	public static function loginForm() {
 		?>
-		<?php if ( get_option( "blockstack_accountCreation" ) === "on" || get_option( "blockstack_accountLinking" ) === "on" ): ?>
+		<?php if ( get_option( "blockstack_accountCreation" ) === "on" || get_option( "blockstack_accountCreation" ) !== "on" ): ?>
 			<script src="<?php echo get_option( 'blockstack_jsLibraryLocation' ); ?>"></script>
 			<script>
 				document.addEventListener( "DOMContentLoaded", function( event ) {
@@ -123,7 +123,6 @@ class Blockstack {
 		add_option( "blockstack_customUsernames", true );
 		add_option( "blockstack_uniqueUsernames", false );
 		add_option( "blockstack_onenameUsernames", false );
-		add_option( "blockstack_accountLinking", true );
 
 		register_setting( "blockstack_settings", "blockstack_jsLibraryLocation" );
 		register_setting( "blockstack_settings", "blockstack_phpLibraryLocation" );
@@ -131,7 +130,6 @@ class Blockstack {
 		register_setting( "blockstack_settings", "blockstack_customUsernames" );
 		register_setting( "blockstack_settings", "blockstack_uniqueUsernames" );
 		register_setting( "blockstack_settings", "blockstack_onenameUsernames" );
-		register_setting( "blockstack_settings", "blockstack_accountLinking" );
 	}
 
 	// Add an option to the settings menu for the blockstack options page
@@ -144,9 +142,9 @@ class Blockstack {
 		include( plugin_dir_path( __FILE__ ) . "pages/options.php" );
 	}
 
-	// Prevent blockstack users from chaning their own passwords if "blockstack_customUsernames" and "blockstack_accountLinking" is disabled
+	// Prevent blockstack users from chaning their own passwords if "blockstack_uniqueUsernames" is enabled
 	public static function preventPassowrdChange() {
-		if ( get_option( 'blockstack_accountCreation' ) === "on" || get_option( 'blockstack_accountLinking' ) === "on" ) {
+		if ( get_option( 'blockstack_uniqueUsernames' ) === "on" ) {
 			$user = wp_get_current_user();
 
 			if ( $user->exists() && get_user_meta( $user->ID, "blockstack_user", true ) ) {

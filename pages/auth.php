@@ -15,7 +15,7 @@ $response = json_decode( $blkstk->auth(), true );
 
 if ( $response["error"] ) {
 	// error handle
-	die('{"error": true, "data": ' . $response["data"] . '}');
+	die('{"error": true, "data": "' . $response["data"] . '"}');
 } else {
 	// login!
 
@@ -35,7 +35,7 @@ if ( $response["error"] ) {
 	}
 
 
-	if ( get_option( "blockstack_customUsernames" ) === "on" || get_option( "blockstack_accountLinking" ) === "on" ) {
+	if ( get_option( "blockstack_customUsernames" ) === "on" || get_option( "blockstack_accountCreation" ) !== "on" ) {
 		if ( blockstack_validateCustomInfo( $response["data"]["login"] ) ) {
 			//attempt login with these details
 
@@ -61,8 +61,7 @@ if ( $response["error"] ) {
 			$userId = wp_create_user( $userName,  $response["data"]["password"] );
 			add_user_meta( $userId, "avatar_url", $response["data"]["avatarUrl"] );
 			add_user_meta( $userId, "blockstack_user", true );
-		}
-		elseif ( get_option( "blockstack_accountCreation" ) === "on" ) {
+		} elseif ( get_option( "blockstack_accountCreation" ) === "on" ) {
 			// Create the account
 
 			$responseMessage = '{"error": false, "data": "' . __( "Creating user", "blockstack" ) . '"}';
@@ -70,20 +69,15 @@ if ( $response["error"] ) {
 			$userId = wp_create_user( $userName, $response["data"]["password"] );
 			add_user_meta( $userId, "avatar_url", $response["data"]["avatarUrl"] );
 			add_user_meta( $userId, "blockstack_user", true );
-		}
-		elseif ( get_option( "blockstack_accountLinking" ) === "on" ) {
+		} else ( get_option( "blockstack_accountCreation" ) !== "on" ) {
 			// Account linking only
 
 			die( '{"error": false, "data": "' . __( "Account creation is disabled", "blockstack" ) . '", "request": true, "message": "' . __( "Please enter a existing account", "blockstack" ) . '"}' );
-		} else {
-			// Account creation is not allowed
-
-			die( '{"error": true, "data": "' . __( "Account creation is disabled", "blockstack" ) . '", "message": "' . __( "Account creation is disabled", "blockstack" ) . '"}' );
 		}
 	} else {
 		// User exists - check whether we are linking account, or loggin in like normal
 
-		if ( get_option( "blockstack_accountLinking" ) === "on" ||  get_option( "blockstack_customUsernames" ) === "on" ) {
+		if ( get_option( "blockstack_accountCreation" ) !== "on" ||  get_option( "blockstack_customUsernames" ) === "on" ) {
 			// User exists - attempt saved blockstack login details and request details if they don't work
 
 			$creds = [

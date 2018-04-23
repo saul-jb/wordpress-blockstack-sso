@@ -21,7 +21,7 @@ require_once( plugin_dir_path( __FILE__ ) . "./class.blockstack.php" );
 add_action( "plugins_loaded", ["Blockstack", "init"] );
 
 // If this is a request for the blockstack manifest set a CORS header, return the JSON manifest and exit
-if ( preg_match( '|/manifest.json/$|', $_SERVER['REQUEST_URI'] ) ) {
+if ( preg_match( '|/manifest.json/$|', $_SERVER['REQUEST_URI'] ) || preg_match( '|/manifest.json$|', $_SERVER['REQUEST_URI'] ) ) {
 	header("Access-Control-Allow-Origin: *");
 	header("Content-Type: application/json");
 	?>{

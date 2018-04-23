@@ -67,14 +67,6 @@
 						<input type="checkbox" id="blockstack_onenameUsernames" name="blockstack_onenameUsernames" <?php echo ( get_option( 'blockstack_onenameUsernames' ) ) ? "checked" : ""; ?> />
 					</td>
 				</tr>
-				<tr id="blockstack_accountLinkingP">
-					<th>
-						<label for="blockstack_accountLinking"><?php _e( "Allow Blockstack Account Linking:", "blockstack" ); ?></label>
-					</th>
-					<td>
-						<input type="checkbox" id="blockstack_accountLinking" name="blockstack_accountLinking" <?php echo ( get_option( 'blockstack_accountLinking' ) ) ? "checked" : ""; ?> />
-					</td>
-				</tr>
 			</table>
 		</div>
 		<?php  submit_button(); ?>
@@ -85,7 +77,6 @@
 	document.addEventListener( "DOMContentLoaded", function( event ) {
 		var accountCreation = document.getElementById( "blockstack_accountCreation" );
 		var customUsernames = document.getElementById( "blockstack_customUsernames" );
-		var accountLinking = document.getElementById( "blockstack_accountLinking" );
 
 		function setState( el, state ) {
 			var parent = document.getElementById( el + "P" );
@@ -100,7 +91,6 @@
 			setState( "blockstack_customUsernames", accountCreation.checked );
 			setState( "blockstack_uniqueUsernames", ( accountCreation.checked && !customUsernames.checked ) );
 			setState( "blockstack_onenameUsernames", ( accountCreation.checked && !customUsernames.checked ) );
-			setState( "blockstack_accountLinking", !accountCreation.checked );
 		}
 
 		document.getElementById("blockstack_accountCreation").addEventListener( "change", function ( event ) {
