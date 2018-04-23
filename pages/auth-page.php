@@ -14,7 +14,7 @@
 </head>
 	<body class="login login-action-login wp-core-ui  locale-en-us">
 		<div id="login">
-			<form id="loginform">
+			<form id="loginForm">
 				<h3 id="message">
 					<?php _e( "Logging in!", "blockstack" ); ?>
 				</h3>
@@ -88,10 +88,11 @@
 					attemptSignin( userData, url );
 				}
 
-				document.getElementById("resubmitDetails").addEventListener("click", function() {
+				document.getElementById("loginForm").addEventListener("submit", function(event) {
 					var username = document.getElementById("username").value;
 					var password = document.getElementById("password").value;
 
+					event.preventDefault();
 					detailsEl.className = "hidden";
 					messageEl.innerHTML = "<?php _e( 'Logging in!', 'blockstack' ); ?>";
 					detailsEl.className = "";
