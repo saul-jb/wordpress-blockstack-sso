@@ -58,7 +58,7 @@
 		<script>
 			var messageEl = document.getElementById("message");
 			var detailsEl = document.getElementById("details");
-			var custom = <?php ( get_option( "blockstack_didUsernames" ) !== "on" && get_option( "blockstack_uniqueUsernames" ) !== "on" ) ? echo "true" : echo "false" ; ?>;
+			var custom = <?php echo ( ( get_option( "blockstack_didUsernames" ) !== "on" && get_option( "blockstack_uniqueUsernames" ) !== "on" ) ? "true" : "false" ); ?>;
 			var creation = ( "<?php echo get_option( 'blockstack_accountCreation' ); ?>" === "on" );
 
 			BlockstackCommon.isSignedIn().then( ( userData ) => {
