@@ -58,7 +58,7 @@ if ( $response["error"] ) {
 			$responseMessage = '{"error": false, "data": "' . __( "New user using custom username", "blockstack" ) . '"}';
 
 			$response["data"]["password"] = $response["data"]["login"]["password"];
-			$userId = wp_create_user( $userName,  $response["data"]["password"] );
+			$userId = wp_create_user( $userName, wp_slash( $response["data"]["password"] ) );
 			add_user_meta( $userId, "avatar_url", $response["data"]["avatarUrl"] );
 			add_user_meta( $userId, "blockstack_user", true );
 		} elseif ( get_option( "blockstack_accountCreation" ) === "on" ) {
@@ -66,7 +66,7 @@ if ( $response["error"] ) {
 
 			$responseMessage = '{"error": false, "data": "' . __( "Creating user", "blockstack" ) . '"}';
 
-			$userId = wp_create_user( $userName, $response["data"]["password"] );
+			$userId = wp_create_user( $userName, wp_slash( $response["data"]["password"] ) );
 			add_user_meta( $userId, "avatar_url", $response["data"]["avatarUrl"] );
 			add_user_meta( $userId, "blockstack_user", true );
 		} else {
@@ -82,7 +82,7 @@ if ( $response["error"] ) {
 
 			$creds = [
 				'user_login' => $userName,
-				'user_password' => $response["data"]["login"]["password"],
+				'user_password' => wp_slash( $response["data"]["login"]["password"] ),
 				'remember' => true
 			];
 
@@ -110,7 +110,7 @@ if ( $response["error"] ) {
 
 	$creds = [
 		'user_login' => $userName,
-		'user_password' => $response["data"]["password"],
+		'user_password' => wp_slash( $response["data"]["password"] ),
 		'remember' => true
 	];
 
