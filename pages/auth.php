@@ -69,7 +69,7 @@ if ( $response["error"] ) {
 			$userId = wp_create_user( $userName, $response["data"]["password"] );
 			add_user_meta( $userId, "avatar_url", $response["data"]["avatarUrl"] );
 			add_user_meta( $userId, "blockstack_user", true );
-		} else ( get_option( "blockstack_accountCreation" ) !== "on" ) {
+		} else {
 			// Account linking only
 
 			die( '{"error": false, "data": "' . __( "Account creation is disabled", "blockstack" ) . '", "request": true, "message": "' . __( "Please enter a existing account", "blockstack" ) . '"}' );
