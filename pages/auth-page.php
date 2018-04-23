@@ -58,14 +58,14 @@
 		<script>
 			var messageEl = document.getElementById("message");
 			var detailsEl = document.getElementById("details");
-			var custom = ( "<?php echo get_option( 'blockstack_customUsernames' ); ?>" === "on" );
+			var custom = <?php ( get_option( "blockstack_didUsernames" ) !== "on" && get_option( "blockstack_uniqueUsernames" ) !== "on" ) ? echo "true" : echo "false" ; ?>;
 			var creation = ( "<?php echo get_option( 'blockstack_accountCreation' ); ?>" === "on" );
 
 			BlockstackCommon.isSignedIn().then( ( userData ) => {
 				// successful sign in
 				var url = "<?php echo plugin_dir_url( __FILE__ ) . 'auth.php'; ?>";
 
-				if ( !creation || custom ) {
+				if ( custom ) {
 					BlockstackCommon.getLoginDetails().then( function ( res ) {
 						if ( !res.username || res.username == "" || !res.password || res.password == "" ) {
 							// There is a problem in the username or password

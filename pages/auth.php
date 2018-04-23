@@ -35,7 +35,7 @@ if ( $response["error"] ) {
 	}
 
 
-	if ( get_option( "blockstack_customUsernames" ) === "on" || get_option( "blockstack_accountCreation" ) !== "on" ) {
+	if ( get_option( "blockstack_didUsernames" ) !== "on" && get_option( "blockstack_uniqueUsernames" ) !== "on" ) {
 		if ( blockstack_validateCustomInfo( $response["data"]["login"] ) ) {
 			//attempt login with these details
 
@@ -52,7 +52,7 @@ if ( $response["error"] ) {
 	if ( !$userId ) {
 		// User doesn't exist - request username, create user, account linking only or reject
 
-		if ( get_option( "blockstack_customUsernames" ) === "on" ) {
+		if ( get_option( "blockstack_didUsernames" ) !== "on" && get_option( "blockstack_uniqueUsernames" ) !== "on" && get_option( "blockstack_accountCreation" ) === "on" ) {
 			// User doesn't exist - create one:
 
 			$responseMessage = '{"error": false, "data": "' . __( "New user using custom username", "blockstack" ) . '"}';
@@ -77,7 +77,7 @@ if ( $response["error"] ) {
 	} else {
 		// User exists - check whether we are linking account, or loggin in like normal
 
-		if ( get_option( "blockstack_accountCreation" ) !== "on" ||  get_option( "blockstack_customUsernames" ) === "on" ) {
+		if ( get_option( "blockstack_didUsernames" ) !== "on" && get_option( "blockstack_uniqueUsernames" ) !== "on" ) {
 			// User exists - attempt saved blockstack login details and request details if they don't work
 
 			$creds = [

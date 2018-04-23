@@ -43,12 +43,12 @@
 						<input type="checkbox" id="blockstack_accountCreation" name="blockstack_accountCreation" <?php echo ( get_option( 'blockstack_accountCreation' ) ) ? "checked" : ""; ?> />
 					</td>
 				</tr>
-				<tr id="blockstack_customUsernamesP">
+				<tr id="blockstack_didUsernamesP">
 					<th>
-						<label for="blockstack_customUsernames"><?php _e( "Allow Custom Usernames:", "blockstack" ); ?></label>
+						<label for="blockstack_didUsernames"><?php _e( "Use decentralised ID's as usernames:", "blockstack" ); ?></label>
 					</th>
 					<td>
-						<input type="checkbox" id="blockstack_customUsernames" name="blockstack_customUsernames" <?php echo ( get_option( 'blockstack_customUsernames' ) ) ? "checked" : ""; ?> />
+						<input type="checkbox" id="blockstack_didUsernames" name="blockstack_didUsernames" <?php echo ( get_option( 'blockstack_didUsernames' ) ) ? "checked" : ""; ?> />
 					</td>
 				</tr>
 				<tr id="blockstack_uniqueUsernamesP">
@@ -76,7 +76,8 @@
 <script>
 	document.addEventListener( "DOMContentLoaded", function( event ) {
 		var accountCreation = document.getElementById( "blockstack_accountCreation" );
-		var customUsernames = document.getElementById( "blockstack_customUsernames" );
+		var didUsernames = document.getElementById( "blockstack_didUsernames" );
+		var uniqueUsernames = document.getElementById( "blockstack_uniqueUsernames" );
 
 		function setState( el, state ) {
 			var parent = document.getElementById( el + "P" );
@@ -88,16 +89,16 @@
 		}
 
 		function updateState() {
-			setState( "blockstack_customUsernames", accountCreation.checked );
-			setState( "blockstack_uniqueUsernames", ( accountCreation.checked && !customUsernames.checked ) );
-			setState( "blockstack_onenameUsernames", ( accountCreation.checked && !customUsernames.checked ) );
+			setState( "blockstack_didUsernames", ( accountCreation.checked && !uniqueUsernames.checked ) );
+			setState( "blockstack_uniqueUsernames", ( accountCreation.checked && !didUsernames.checked ) );
+			setState( "blockstack_onenameUsernames", ( accountCreation.checked && ( didUsernames.checked || uniqueUsernames.checked ) ) );
 		}
 
 		document.getElementById("blockstack_accountCreation").addEventListener( "change", function ( event ) {
 			updateState();
 		});
 
-		document.getElementById("blockstack_customUsernames").addEventListener( "change", function ( event ) {
+		document.getElementById("blockstack_didUsernames").addEventListener( "change", function ( event ) {
 			updateState();
 		});
 

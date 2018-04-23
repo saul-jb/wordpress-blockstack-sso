@@ -44,7 +44,7 @@ class Blockstack {
 		if ( wp_get_current_user()->ID == $user->ID ) {
 			// We only need to display this if the admin has set the following options:
 
-			if ( get_option( "blockstack_customUsernames" ) === "on" || get_option( "blockstack_accountCreation" ) !== "on"  ) {
+			if ( get_option( "blockstack_didUsernames" ) !== "on" && get_option( "blockstack_uniqueUsernames" ) !== "on" ) {
 				?>
 				<h3>Blockstack</h3>
 				<table class="form-table">
@@ -120,14 +120,14 @@ class Blockstack {
 		add_option( "blockstack_jsLibraryLocation", "wp-content/plugins/blockstack/js/blockstack_sso.js" );
 		add_option( "blockstack_phpLibraryLocation", "wp-content/plugins/blockstack/libs/blockstack_sso.php" );
 		add_option( "blockstack_accountCreation", true );
-		add_option( "blockstack_customUsernames", true );
+		add_option( "blockstack_didUsernames", false );
 		add_option( "blockstack_uniqueUsernames", false );
 		add_option( "blockstack_onenameUsernames", false );
 
 		register_setting( "blockstack_settings", "blockstack_jsLibraryLocation" );
 		register_setting( "blockstack_settings", "blockstack_phpLibraryLocation" );
 		register_setting( "blockstack_settings", "blockstack_accountCreation" );
-		register_setting( "blockstack_settings", "blockstack_customUsernames" );
+		register_setting( "blockstack_settings", "blockstack_didUsernames" );
 		register_setting( "blockstack_settings", "blockstack_uniqueUsernames" );
 		register_setting( "blockstack_settings", "blockstack_onenameUsernames" );
 	}
