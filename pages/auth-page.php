@@ -22,7 +22,7 @@
 					<p><label for="username"><?php _e( "Username: ", "blockstack" ); ?><input class="input" id="username" type="text" /></label></p>
 					<p><label for="password"><?php _e( "Password: ", "blockstack" ); ?><input class="input" id="password" type="password" /></label></p>
 					<p class="submit">
-						<input class="button button-primary button-large" type="button" id="resubmitDetails" value="<?php _e( 'Submit', 'blockstack' ); ?>" />
+						<input class="button button-primary button-large" type="submit" id="resubmitDetails" value="<?php _e( 'Submit', 'blockstack' ); ?>" />
 					</p>
 				</div>
 			</form>
