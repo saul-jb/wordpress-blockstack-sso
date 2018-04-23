@@ -102,6 +102,10 @@
 			updateState();
 		});
 
+		document.getElementById("blockstack_uniqueUsernames").addEventListener( "change", function ( event ) {
+			updateState();
+		});
+
 		updateState();
 	});
 </script>
