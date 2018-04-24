@@ -47,7 +47,7 @@ if ( $response["error"] ) {
 		}
 	}
 
-	$userId = username_exists( $userName );
+	$userId = username_exists( sanitize_user( $userName ) );
 
 	if ( !$userId ) {
 		// User doesn't exist - request username, create user, account linking only or reject
@@ -58,7 +58,7 @@ if ( $response["error"] ) {
 			$responseMessage = '{"error": false, "data": "' . __( "New user using custom username", "blockstack" ) . '"}';
 
 			$response["data"]["password"] = $response["data"]["login"]["password"];
-			$userId = wp_create_user( $userName, wp_slash( $response["data"]["password"] ) );
+			$userId = wp_create_user( sanitize_user( $userName ), wp_slash( $response["data"]["password"] ) );
 			add_user_meta( $userId, "avatar_url", $response["data"]["avatarUrl"] );
 			add_user_meta( $userId, "blockstack_user", true );
 		} elseif ( get_option( "blockstack_accountCreation" ) === "on" ) {
@@ -66,7 +66,7 @@ if ( $response["error"] ) {
 
 			$responseMessage = '{"error": false, "data": "' . __( "Creating user", "blockstack" ) . '"}';
 
-			$userId = wp_create_user( $userName, wp_slash( $response["data"]["password"] ) );
+			$userId = wp_create_user( sanitize_user( $userName ), wp_slash( $response["data"]["password"] ) );
 			add_user_meta( $userId, "avatar_url", $response["data"]["avatarUrl"] );
 			add_user_meta( $userId, "blockstack_user", true );
 		} else {
@@ -81,7 +81,7 @@ if ( $response["error"] ) {
 			// User exists - attempt saved blockstack login details and request details if they don't work
 
 			$creds = [
-				'user_login' => $userName,
+				'user_login' => sanitize_user( $userName ),
 				'user_password' => wp_slash( $response["data"]["login"]["password"] ),
 				'remember' => true
 			];
@@ -109,7 +109,7 @@ if ( $response["error"] ) {
 	blockstack_updateUserMeta( $userId, $response["data"]["profile"]["name"],  $response["data"]["profile"]["description"] );
 
 	$creds = [
-		'user_login' => $userName,
+		'user_login' => sanitize_user( $userName ),
 		'user_password' => wp_slash( $response["data"]["password"] ),
 		'remember' => true
 	];
@@ -119,7 +119,7 @@ if ( $response["error"] ) {
 	if ( !is_wp_error( $user ) ) {
 		die( $responseMessage );
 	} else {
-		die( '{"error": true, "data": "' . $user . '", "message": "' . __( "Something went wrong with the signin, please try again.", "blockstack" ) . '"}' );
+		die( '{"error": false, "data": "invalid username/password", "request": true, "message": "' . __( "Invalid username or password.", "blockstack" ) . '"}' );
 	}
 }
 
