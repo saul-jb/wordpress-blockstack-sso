@@ -94,10 +94,13 @@ class Blockstack {
 				document.addEventListener( "DOMContentLoaded", function( event ) {
 					var form = document.getElementById( "loginform" );
 					var btn = document.createElement( "INPUT" );
+					var link = document.createElement( "A" );
+					var linkText = document.createTextNode( "<?php _e( 'Whats Blockstack?', 'blockstack' ); ?>" )
+
 					btn.type = "button";
-					btn.value = "<?php _e( 'Sign in with blockstack.', 'blockstack' ); ?>";
+					btn.value = "<?php _e( 'Sign in with Blockstack.', 'blockstack' ); ?>";
 					btn.className = "button button-primary button-large";
-					btn.style = "position: relative; top: 20px; width: 100%";
+					btn.style = "position: relative; top: 20px; width: 100%;";
 
 					btn.addEventListener( "click", function( event ) {
 						event.preventDefault();
@@ -108,7 +111,13 @@ class Blockstack {
 						});
 					});
 
+					link.href = "https://blockstack.org";
+					link.style = "position: relative; top: 30px; display: inline-block; text-align: center; width: 100%;";
+					link.target = "_blank";
+					link.appendChild( linkText );
+
 					form.appendChild( btn );
+					form.appendChild( link );
 				});
 			</script>
 		<?php endif; ?>
